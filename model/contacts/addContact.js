@@ -1,19 +1,18 @@
-const { fs, contactsPath, shortid } = require('./pathContact')
+const { fs, contactsPath, shortid } = require('../../utils/path/pathContact')
 
-const addContact = async (req, res, next) => {
+const addContact = async (name, email, phone) => {
   try {
     const data = await fs.readFile(contactsPath, 'utf-8')
     const parseContacts = JSON.parse(data.toString())
-    const { name, email, phone } = req.body
 
     const newContact = { id: shortid.generate(), name, email, phone }
     const contacts = [...parseContacts, newContact]
 
     await fs.writeFile(contactsPath, JSON.stringify(contacts))
 
-    return res.status(201).json({ message: 'Success' })
+    return newContact
   } catch (err) {
-    next()
+    return err
   }
 }
 

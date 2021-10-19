@@ -1,10 +1,8 @@
-const { fs, contactsPath } = require('./pathContact')
+const { contactById } = require('../../model/contacts')
 
 const getContactById = async (req, res, next) => {
   try {
-    const data = await fs.readFile(contactsPath, 'utf-8')
-    const parseContacts = JSON.parse(data.toString())
-    const [contact] = await parseContacts.filter(({ id }) => String(id) === String(req.params.contactId))
+    const contact = await contactById(req.params.contactId)
 
     if (!contact) {
       return res.status(404).json({ message: 'Not found' })
