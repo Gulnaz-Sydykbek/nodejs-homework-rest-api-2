@@ -1,10 +1,8 @@
-const { connectMongo } = require('../../db/connection')
-const ObjectId = require('mongodb').ObjectID
+const { contactById } = require('../../model/contacts')
 
 const getContactById = async (req, res, next) => {
   try {
-    const Contacts = await connectMongo()
-    const contact = await Contacts.findOne({ _id: new ObjectId(req.params.contactId) })
+    const contact = await contactById(req.params.contactId)
 
     if (!contact) {
       return res.status(404).json({ message: 'Not found' })

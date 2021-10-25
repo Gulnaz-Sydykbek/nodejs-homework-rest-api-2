@@ -1,10 +1,9 @@
-const { connectMongo } = require('../../db/connection')
+const { listContacts } = require('../../model/contacts')
 
 const getAllContacts = async (req, res, next) => {
   try {
-    const Contacts = await connectMongo()
-    const contacts = await Contacts.find({}).toArray()
-    console.log(contacts)
+    const contacts = await listContacts()
+
     return res.status(200).json({ contacts, message: 'Success' })
   } catch (err) {
     next()

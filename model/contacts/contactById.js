@@ -1,13 +1,10 @@
-const { fs, contactsPath } = require('../../utils/path/pathContact')
+const { Contacts } = require('../../db/contactsModel')
 
 const contactById = async (contactId) => {
   try {
-    const data = await fs.readFile(contactsPath, 'utf-8')
-    const parseContacts = JSON.parse(data.toString())
+    const result = await Contacts.findById(contactId)
 
-    const [contact] = await parseContacts.filter(({ id }) => String(id) === String(contactId))
-
-    return contact
+    return result
   } catch (err) {
     return err
   }

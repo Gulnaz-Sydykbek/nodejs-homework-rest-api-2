@@ -1,18 +1,16 @@
-const { connectMongo } = require('../../db/connection')
-const ObjectId = require('mongodb').ObjectID
+const { updatePatchContact } = require('../../model/contacts')
 
 const patchContact = async (req, res, next) => {
   try {
     const { name, email, phone } = req.body
 
-    const Contacts = await connectMongo()
-    const newContact = await Contacts.updateOne({ _id: new ObjectId(req.params.contactId) }, { $set: { name, email, phone } })
+    await updatePatchContact(req.params.contactId, name, email, phone)
 
     if (!req.body) {
       return res.status(400).json({ message: 'Missing fields"' })
     }
 
-    return res.status(200).json({ newContact, message: 'Success' })
+    return res.status(200).json({ message: 'Success' })
   } catch (err) {
     next()
   }
