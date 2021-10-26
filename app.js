@@ -2,6 +2,8 @@ const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
 
+console.log(process.env)
+
 const contactsRouter = require('./routes/api/contacts')
 
 const app = express()
