@@ -1,8 +1,8 @@
 const { Contacts } = require('../../db/contactsModel')
 
-const contactById = async (contactId) => {
+const contactById = async (contactId, owner) => {
   try {
-    const result = await Contacts.findById(contactId)
+    const result = await Contacts.findOne({ _id: contactId, owner })
 
     return result
   } catch (err) {
