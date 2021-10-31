@@ -1,10 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const { authRegistration, authLogin } = require('../../controllers/authControllers/authControllers')
+const { checkAuth } = require('../../helpers/checkAuth')
+const { authSignup, authLogin, authLogout, authCurrentToken, authUpdateSubscription } = require('../../controllers/authControllers')
 
-router.post('/signup', authRegistration)
-
+router.post('/signup', authSignup)
 router.post('/login', authLogin)
+router.post('/logout', checkAuth, authLogout)
+
+router.get('/current', checkAuth, authCurrentToken)
+
+router.patch('/', checkAuth, authUpdateSubscription)
 
 module.exports = {
   authRouter: router,

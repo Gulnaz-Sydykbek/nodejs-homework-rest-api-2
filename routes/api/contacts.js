@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 const express = require('express')
 const router = express.Router()
 const { addContactsValidation, patchContactsValidation } = require('../../middlewares/contactsValidation')
-const { userValidation } = require('../../middlewares/userValidation')
+const { checkAuth } = require('../../helpers/checkAuth')
 const {
   getAllContacts,
   getContactById,
@@ -12,7 +11,7 @@ const {
   getFavorite
 } = require('../../controllers/contactsControllers')
 
-router.use(userValidation)
+router.use(checkAuth)
 
 router.get('/', getAllContacts)
 router.get('/:contactId', getContactById)
