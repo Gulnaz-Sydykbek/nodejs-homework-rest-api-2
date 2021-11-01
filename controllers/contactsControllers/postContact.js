@@ -7,6 +7,10 @@ const postContact = async (req, res, next) => {
 
     const newContact = await addContact(name, email, phone, id)
 
+    if (newContact.email === email) {
+      return res.json({ message: 'Email in use' })
+    }
+
     return res.status(201).json({ newContact, message: 'Success' })
   } catch (err) {
     next()
