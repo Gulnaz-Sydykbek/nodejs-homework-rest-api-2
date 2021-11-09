@@ -5,7 +5,7 @@ const userSignup = async (email, password, subscription) => {
     const user = new User({ email, password, subscription })
 
     if (user) {
-      return await User.findOne({ email })
+      await user.save()
     }
 
     return await user.save()

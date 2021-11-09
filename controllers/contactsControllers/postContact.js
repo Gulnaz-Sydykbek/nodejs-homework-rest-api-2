@@ -1,4 +1,8 @@
+const fs = require('fs').promises
+const path = require('path')
 const { addContact } = require('../../model/contacts')
+
+const FILE_DIR = path.join(__dirname, '../', '../', 'public', 'avatars')
 
 const postContact = async (req, res, next) => {
   try {
@@ -7,11 +11,10 @@ const postContact = async (req, res, next) => {
 
     const newContact = await addContact(name, email, phone, id)
 
-    if (newContact.email === email) {
-      return res.json({ message: 'Email in use' })
-    }
+    res.status(201).json({ newContact, message: 'Success' })
 
-    return res.status(201).json({ newContact, message: 'Success' })
+    const dirPath = path.join(FILE_DIR, id)
+    await fs.mkdir(dirPath)
   } catch (err) {
     next()
   }
