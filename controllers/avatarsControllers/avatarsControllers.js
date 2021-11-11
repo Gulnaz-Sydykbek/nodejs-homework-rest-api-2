@@ -1,11 +1,11 @@
 const fs = require('fs').promises
 const path = require('path')
 const Jimp = require('jimp')
-const { User } = require('../../db/userModel')
+const { avatarLoader } = require('../../model/avatars/avatarLoader')
 
 const FILE_DIR = path.join(__dirname, '../', '../', 'public', 'avatars')
 
-const uploadControllers = async (req, res, next) => {
+const avatarsControllers = async (req, res, next) => {
   const { id } = req.user
   const { path: tmpPath, originalname } = req.file
   const uploadPath = path.join(FILE_DIR, id, originalname)
@@ -17,7 +17,7 @@ const uploadControllers = async (req, res, next) => {
     await fs.rename(tmpPath, uploadPath)
 
     const avatarURL = `/public/avatars/${id}/${originalname}`
-    await User.findByIdAndUpdate(id, { avatarURL })
+    await avatarLoader(id, avatarURL)
 
     if (!req.user) {
       return res
@@ -37,5 +37,5 @@ const uploadControllers = async (req, res, next) => {
 }
 
 module.exports = {
-  uploadControllers,
+  avatarsControllers,
 }
