@@ -1,10 +1,11 @@
 const { Contacts } = require('../../db/contactsModel')
 
-const listContacts = async (owner, { page, limit }) => {
+const listContacts = async (owner, { page, limit, favorite }) => {
   try {
-    const result = await Contacts.paginate({ owner }, {
+    const result = await Contacts.paginate({ owner, ...(favorite && { favorite }) }, {
       page,
       limit,
+      favorite,
       populate: {
         path: 'owner',
         select: 'subscription',
