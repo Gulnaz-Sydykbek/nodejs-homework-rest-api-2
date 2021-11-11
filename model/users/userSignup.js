@@ -8,7 +8,7 @@ const userSignup = async (email, password, subscription) => {
       await user.save()
     }
 
-    return await user.save()
+    return user
   } catch (err) {
     return err
   }
