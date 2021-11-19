@@ -5,6 +5,13 @@ const authSignup = async (req, res, next) => {
     const { email, password, subscription } = req.body
     const user = await userSignup(email, password, subscription)
 
+    if (user.email === undefined) {
+      return res
+        .status(409)
+        .type('application/json')
+        .json({ message: 'Email in use' })
+    }
+
     if (!user) {
       return res
         .status(400)

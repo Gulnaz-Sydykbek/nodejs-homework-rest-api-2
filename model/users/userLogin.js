@@ -21,6 +21,10 @@ const userLogin = async (email, password) => {
 
     await User.updateOne({ _id: user.id }, { token })
 
+    if (!user.verify) {
+      return
+    }
+
     return token
   } catch (err) {
     return err

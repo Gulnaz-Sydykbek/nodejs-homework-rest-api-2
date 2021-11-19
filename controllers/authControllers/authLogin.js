@@ -18,6 +18,12 @@ const authLogin = async (req, res, next) => {
         .json({ message: 'Email or password is wrong' })
     }
 
+    if (token === undefined) {
+      return res
+        .status(403)
+        .json({ message: 'Email not verified' })
+    }
+
     return res
       .status(200)
       .json({ token, user: { email } })
